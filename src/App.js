@@ -6,7 +6,6 @@ import { DefaultLayout } from "./components/Layout";
 function App() {
   return (
     <Router>
-      <div className="App">
         <Routes>
           {publicRoutes.map((route, index) => {
             const Layout = route.layout === null ? Fragment : DefaultLayout;
@@ -24,7 +23,6 @@ function App() {
             );
           })}
         </Routes>
-      </div>
     </Router>
   );
 }

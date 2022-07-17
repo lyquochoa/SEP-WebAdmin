@@ -353,7 +353,6 @@ nav.close ~ .dashboard .top {
 .product-display .product-display-table td {
   padding: 1rem;
   font-size: 18px;
-  border-bottom: var(--border);
 }
 
 .product-display .product-display-table .btn:first-child {

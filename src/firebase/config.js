@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCD3ryoBh12akfPZ4LQ9d9Usa_IqsdJhvU",
+  apiKey: "AIzaSyDyUKguLIRvhNAAj9ubJA5B-2de1rrxI_U",
   authDomain: "sep-project-39ea6.firebaseapp.com",
   databaseURL:
     "https://sep-project-39ea6-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -15,6 +17,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
+const db = getDatabase(app);
+const auth = getAuth();
+
+export { db, auth };
 export default app;

@@ -1,9 +1,25 @@
 import classNames from "classnames/bind";
 import styles from "./style_update-profile.css";
+// import { db } from "../../firebase";
+// import { set, ref } from "firebase/database";
+// import { useState, useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
 function Update() {
+  // const [todo, setTodo] = useState("");
+
+  // const handleTodoChange = (e) => {
+  //   setTodo(e.target.value);
+  // };
+
+  // //write
+  // const writeToDatabase = () => {
+  //   set(ref(db, "Test"), {
+  //     todo,
+  //   });
+  //   setTodo("");
+  // };
   return (
     <div className={cx("update-profile")}>
       <form action="" method="">

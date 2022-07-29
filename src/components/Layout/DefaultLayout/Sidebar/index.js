@@ -9,7 +9,7 @@ import {
 
 const cx = classNames.bind(styles);
 
-function Sidebar() {
+function Sidebar({ handleLogout }) {
   return (
     <nav>
       <div className={cx("logo-name")}>
@@ -38,7 +38,7 @@ function Sidebar() {
 
         <ul className={cx("logout-mode")}>
           <li>
-            <a href="/">
+            <a href="/login">
               <i className={cx("uil uil-signout")}></i>
               <span className={cx("link-name")}>Logout</span>
             </a>

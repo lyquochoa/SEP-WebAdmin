@@ -9,7 +9,7 @@ import {
   faGaugeHigh,
   faSearch,
   faShare,
-  faThumbsUp, 
+  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../../components/Layout/DefaultLayout/Sidebar";
 

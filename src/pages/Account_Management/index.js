@@ -1,5 +1,4 @@
 import classNames from "classnames/bind";
-// import styles from "./HomeAdmin.module.scss";
 import React from "react";
 import styles from "../Home_Admin/style.css";
 import imgprofile from "../../img/profile.jpg";
@@ -13,13 +12,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../../components/Layout/DefaultLayout/Sidebar";
 import { db } from "../../firebase/config";
-import { ref, child, onValue, remove } from "firebase/database";
-import { useState, useEffect } from "react";
+import { ref, onValue, remove } from "firebase/database";
+import { UpdateAccount } from "../Update";
 
 const cx = classNames.bind(styles);
+let UniqueNumber = 0;
 
+// Detele
 const onDelete = (id) => {
-  if (window.confirm("Bạn có muốn xóa không ? ")) {
+  if (window.confirm("Bạn muốn xóa tài khoản này hay không ? ")) {
     remove(ref(db, `Users/Customer/${id}`))
       .then(() => {
         alert("Xóa thành công");
@@ -51,7 +52,13 @@ export class AccountManagement extends React.Component {
       this.setState({ tableData: records });
     });
   }
-
+//   this.state.tableData.map((row, index) =>{ 
+//     <UpdateAccount
+//       idrenter={row.data.mo_no}
+//       record={row.data}
+//     />
+// })
+ 
   render() {
     return (
       <body>
@@ -91,7 +98,7 @@ export class AccountManagement extends React.Component {
                   <tbody>
                     {this.state.tableData.map((row, index) => {
                       return (
-                        <tr key={index}>
+                        <tr key={UniqueNumber++}>
                           <td>{index + 1}</td>
                           <td>{row.data.name}</td>
                           <td>{row.data.email}</td>

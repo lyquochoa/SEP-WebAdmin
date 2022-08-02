@@ -3,7 +3,7 @@ import styles from "./style_update-profile.css";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase/config";
-import { ref, onValue, child, get } from "firebase/database";
+import { ref, onValue, child, get, update } from "firebase/database";
 // import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
@@ -26,7 +26,16 @@ function Update() {
   const { id } = useParams();
 
   useEffect(() => {
-    // const dbRef = ref(db);
+    //     const dbRef = ref(db);
+
+    // get(child(dbRef, `Users/Customer/${id}`)).then((snapshot) => {
+    //       // if (snapshot.val() !== null) {
+    //       //   setData({ ...snapshot.val() });
+    //       // } else {
+    //       //   setData({});
+    //       // }
+    //       console.log(snapshot.val());
+    //     });
     const dbRef = ref(db, "Users/Customer");
 
     onValue(dbRef, (snapshot) => {
@@ -35,7 +44,7 @@ function Update() {
       } else {
         setData({});
       }
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
     });
 
     return () => {
@@ -60,27 +69,56 @@ function Update() {
     setState({ ...state, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!name || !phoneNumber || !email || !password) {
+  console.log(state.name);
+
+  const handleUpdate = () => {
+    const dbRef = ref(db, `Users/Customer/${id}`);
+    const newData = state;
+
+    if (
+      !newData.name ||
+      !newData.phoneNumber ||
+      !newData.email ||
+      !newData.password
+    ) {
       alert("Vui lòng nhập đủ các trường thông tin");
     } else {
-      const dbRef = ref(db, `Users/Customer/${id}`);
-
-      onValue(dbRef).set(state, (err) => {
-        if (err) {
-          // toast.error(err);
-          console.log(err);
-        } else {
-          alert("Cập nhật thành công");
-        }
-      });
+      update(dbRef, {
+        name: newData.name,
+        phoneNumber: newData.phoneNumber,
+        email: newData.email,
+        password: newData.password,
+      })
+        .then(() => {
+          alert("Cập nhật thông tin thành công");
+        })
+        .catch((error) => {
+          alert("Cập nhật thông tin không thành công, chi tiết" + error);
+        });
     }
   };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (!name || !phoneNumber || !email || !password) {
+  //     alert("Vui lòng nhập đủ các trường thông tin");
+  //   } else {
+  //     const dbRef = ref(db, `Users/Customer/${id}`);
+
+  //     onValue(dbRef).set(state, (err) => {
+  //       console.log(err);
+  //       if (err) {
+  //         // toast.error(err);
+  //         console.log(err);
+  //       } else {
+  //         alert("Cập nhật thành công");
+  //       }
+  //     });
+  //   }
+  // };
 
   return (
     <div className={cx("update-profile")}>
-      <form onSubmit={handleSubmit}>
+      <form action="">
         <div className={cx("flex")}>
           <div className={cx("inputBox")}>
             <span>Tài khoản</span>
@@ -94,7 +132,7 @@ function Update() {
             />
             <span>Số điện thoại</span>
             <input
-              type="text"
+              type="number"
               className={cx("box")}
               name="phoneNumber"
               value={phoneNumber || ""}
@@ -130,7 +168,12 @@ function Update() {
             /> */}
           </div>
         </div>
-        <input type="submit" className={cx("btn")} value="Cập nhật" />
+        <input
+          type="button"
+          className={cx("btn")}
+          value="Cập nhật"
+          onClick={handleUpdate}
+        />
         <a href="/accountmanagement" className={cx("delete-btn")}>
           Quay lại
         </a>

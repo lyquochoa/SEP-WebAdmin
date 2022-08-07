@@ -35,12 +35,12 @@ function Login() {
     <section className={cx("container forms")}>
       <div className={cx("form login")}>
         <div className={cx("form-content")}>
-          <header>Login</header>
+          <header>Đăng nhập</header>
           <form onSubmit={handleLogin}>
             <div className={cx("field input-field")}>
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="Nhập địa chỉ Email"
                 className={cx("input")}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -49,7 +49,7 @@ function Login() {
             <div className={cx("field input-field")}>
               <input
                 type="password"
-                placeholder="Password"
+                placeholder="Nhập mật khẩu"
                 className={cx("password")}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -58,7 +58,7 @@ function Login() {
 
             <div className={cx("field button-field")}>
               <button onClick={handleLogin}>
-                <a href="/">Login</a>
+                <a href="/">Đăng nhập</a>
               </button>
             </div>
           </form>

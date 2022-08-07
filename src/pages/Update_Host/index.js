@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./style_update-profile.css";
 import React, { useState, useEffect } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { db } from "../../firebase/config";
 import { ref, onValue, update } from "firebase/database";
 import validator from "validator";
@@ -15,7 +15,7 @@ const initialState = {
   password: "",
 };
 
-function Update() {
+function UpdateHost() {
   const [state, setState] = useState(initialState);
   const [data, setData] = useState({});
 
@@ -24,7 +24,7 @@ function Update() {
   const { id } = useParams();
 
   useEffect(() => {
-    const dbRef = ref(db, "Users/Renter");
+    const dbRef = ref(db, "Users/Host");
 
     onValue(dbRef, (snapshot) => {
       if (snapshot.val() !== null) {
@@ -57,7 +57,7 @@ function Update() {
   };
 
   const handleUpdate = () => {
-    const dbRef = ref(db, `Users/Renter/${id}`);
+    const dbRef = ref(db, `Users/Host/${id}`);
     const newData = state;
 
     if (
@@ -67,17 +67,14 @@ function Update() {
       !newData.password
     ) {
       alert("Vui lòng nhập đủ các trường thông tin");
-    } else if (
-      newData.phoneNumber.length < 10 ||
-      newData.phoneNumber.length > 12
-    ) {
-      alert("Số điện thoại phải từ 10 đến 12 con số");
+    } else if (newData.phoneNumber.length < 10) {
+      alert("Sô điện thoại không được ít hơn 10 số");
     } else if (newData.name.length > 10 || newData.name.length < 3) {
-      alert("Tài khoản phải có độ dài từ 3 đến 10 ký tự");
+      alert("Tài khoản phải có độ dài từ 3 đến 12 ký tự");
     } else if (!validator.isEmail(newData.email)) {
       alert("Đây không phải email");
     } else if (newData.password.length > 13 || newData.password.length < 6) {
-      alert("Mật khẩu phải có độ dài từ 6 đến 13 ký tự");
+      alert("Mật khẩu phải có độ dài từ 6 đến 15 ký tự");
     } else {
       update(dbRef, {
         name: newData.name,
@@ -86,7 +83,7 @@ function Update() {
         password: newData.password,
       })
         .then(() => {
-          // <Navigate to="/accountmanagement" />;
+          console.log(newData.name.trim());
           alert("Cập nhật thông tin thành công");
         })
         .catch((error) => {
@@ -148,7 +145,7 @@ function Update() {
           value="Cập nhật"
           onClick={handleUpdate}
         />
-        <a href="/accountmanagement" className={cx("delete-btn")}>
+        <a href="/accountmanagementhost" className={cx("delete-btn")}>
           Quay lại
         </a>
       </form>
@@ -156,4 +153,4 @@ function Update() {
   );
 }
 
-export default Update;
+export default UpdateHost;

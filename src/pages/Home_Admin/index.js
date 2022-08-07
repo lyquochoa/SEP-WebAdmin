@@ -26,7 +26,7 @@ function HomeAdmin() {
 
           <div className={cx("search-box")}>
             <FontAwesomeIcon icon={faSearch} />
-            <input type="text" placeholder="Search here..." />
+            <input type="text" placeholder="Nhập từ khóa tìm kiếm" />
           </div>
 
           <img src={imgprofile} alt="" />

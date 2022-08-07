@@ -31,7 +31,13 @@ function Sidebar({ handleLogout }) {
           <li>
             <a href="/accountmanagement">
               <FontAwesomeIcon icon={faUserAlt} />
-              <span className={cx("link-name")}>Quản lý tài khoản</span>
+              <span className={cx("link-name")}>Quản lý Khách Thuê</span>
+            </a>
+          </li>
+          <li>
+            <a href="/accountmanagementhost">
+              <FontAwesomeIcon icon={faUserAlt} />
+              <span className={cx("link-name")}>Quản lý Chủ Nhà</span>
             </a>
           </li>
         </ul>
@@ -40,7 +46,7 @@ function Sidebar({ handleLogout }) {
           <li>
             <a href="/login">
               <i className={cx("uil uil-signout")}></i>
-              <span className={cx("link-name")}>Logout</span>
+              <span className={cx("link-name")}>Đăng xuất</span>
             </a>
           </li>
         </ul>

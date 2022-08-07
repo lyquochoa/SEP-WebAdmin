@@ -66,6 +66,35 @@ body.dark {
   background: #333;
 }
 
+.btn-add {
+  position: absolute;
+  display: block;
+  width: 250px;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin-left: 78%;
+  padding: 0.5rem 2rem;
+  background: #27ae60;
+  color: var(--white);
+  text-align: center;
+}
+
+.btn-add span {
+  position: relative;
+  display: inline-block;
+  font-size: 20px;
+  bottom: 4px;
+}
+
+.btn-add svg {
+  display: inline-block !important;
+  color: white !important;
+  background-color: black !important;
+  position: relative !important;
+  top: 3px;
+  right: 8px;
+}
+
 nav {
   position: fixed;
   top: 0;
@@ -253,9 +282,9 @@ nav.close ~ .dashboard .top {
   position: relative;
   height: 35px;
   width: 35px;
-  background-color: var(--primary-color);
+  background-color: white;
   border-radius: 50%;
-  color: var(--title-icon-color);
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,9 +1,8 @@
 import classNames from "classnames/bind";
 import styles from "./style_update-profile.css";
-import React, { useState, useEffect } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import React, { useState } from "react";
 import { db } from "../../firebase/config";
-import { ref, onValue, update } from "firebase/database";
+import { ref, set } from "firebase/database";
 import validator from "validator";
 
 const cx = classNames.bind(styles);
@@ -15,41 +14,10 @@ const initialState = {
   password: "",
 };
 
-function Update() {
+function AddHost() {
   const [state, setState] = useState(initialState);
-  const [data, setData] = useState({});
 
   const { name, phoneNumber, email, password } = state;
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    const dbRef = ref(db, "Users/Renter");
-
-    onValue(dbRef, (snapshot) => {
-      if (snapshot.val() !== null) {
-        setData({ ...snapshot.val() });
-      } else {
-        setData({});
-      }
-    });
-
-    return () => {
-      setData({});
-    };
-  }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      setState({ ...data[id] });
-    } else {
-      setState({ ...initialState });
-    }
-
-    return () => {
-      setState({ ...initialState });
-    };
-  }, [id, data]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,8 +25,8 @@ function Update() {
   };
 
   const handleUpdate = () => {
-    const dbRef = ref(db, `Users/Renter/${id}`);
     const newData = state;
+    const dbRef = ref(db, "Users/Host/" + newData.name);
 
     if (
       !newData.name ||
@@ -79,7 +47,7 @@ function Update() {
     } else if (newData.password.length > 13 || newData.password.length < 6) {
       alert("Mật khẩu phải có độ dài từ 6 đến 13 ký tự");
     } else {
-      update(dbRef, {
+      set(dbRef, {
         name: newData.name,
         phoneNumber: newData.phoneNumber,
         email: newData.email,
@@ -87,10 +55,10 @@ function Update() {
       })
         .then(() => {
           // <Navigate to="/accountmanagement" />;
-          alert("Cập nhật thông tin thành công");
+          alert("Tạo tài khoản thành công");
         })
         .catch((error) => {
-          alert("Cập nhật thông tin không thành công, chi tiết" + error);
+          alert("Tạo tài khoản không thành công, chi tiết" + error);
         });
     }
   };
@@ -145,10 +113,10 @@ function Update() {
         <input
           type="button"
           className={cx("btn")}
-          value="Cập nhật"
+          value="Tạo tài khoản"
           onClick={handleUpdate}
         />
-        <a href="/accountmanagement" className={cx("delete-btn")}>
+        <a href="/accountmanagementhost" className={cx("delete-btn")}>
           Quay lại
         </a>
       </form>
@@ -156,4 +124,4 @@ function Update() {
   );
 }
 
-export default Update;
+export default AddHost;

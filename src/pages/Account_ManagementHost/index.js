@@ -21,7 +21,7 @@ let UniqueNumber = 0;
 // Detele
 const onDelete = (id) => {
   if (window.confirm("Bạn muốn xóa tài khoản này hay không ? ")) {
-    remove(ref(db, `Users/Renter/${id}`))
+    remove(ref(db, `Users/Host/${id}`))
       .then(() => {
         alert("Xóa thành công");
       })
@@ -31,7 +31,7 @@ const onDelete = (id) => {
   }
 };
 
-export class AccountManagement extends React.Component {
+export class AccountManagementHost extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -40,7 +40,7 @@ export class AccountManagement extends React.Component {
   }
 
   componentDidMount() {
-    const dbRef = ref(db, "Users/Renter");
+    const dbRef = ref(db, "Users/Host");
 
     onValue(dbRef, (snapshot) => {
       let records = [];
@@ -76,11 +76,9 @@ export class AccountManagement extends React.Component {
                   icon={faAddressBook}
                   style={{ borderRadius: "0px" }}
                 />
-                <span className={cx("text")}>
-                  Danh sách tài khoản Khách Thuê
-                </span>
+                <span className={cx("text")}>Danh sách tài khoản Chủ Nhà</span>
 
-                <a href="accountmanagement/add" className={cx("btn-add")}>
+                <a href="accountmanagementhost/add" className={cx("btn-add")}>
                   <FontAwesomeIcon icon={faPlusCircle} />
                   <span>Tạo tài khoản</span>
                 </a>
@@ -106,7 +104,7 @@ export class AccountManagement extends React.Component {
                           <td>{row.data.phoneNumber}</td>
                           <td>
                             <a
-                              href={`/accountmanagement/update/${row.key}`}
+                              href={`/accountmanagementhost/update/${row.key}`}
                               className={cx("btn")}
                             >
                               <FontAwesomeIcon icon={faEdit} />
@@ -114,7 +112,7 @@ export class AccountManagement extends React.Component {
                             </a>
 
                             <a
-                              href="/accountmanagement"
+                              href="/accountmanagementhost"
                               className={cx("btn")}
                               onClick={() => onDelete(row.key)}
                             >

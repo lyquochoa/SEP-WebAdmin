@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import React, { useContext } from "react";
 import Login from "./pages/Login";
-import HomeAdmin from "./pages/Home_Admin";
+import { HomeAdmin } from "./pages/Home_Admin";
 import { AccountManagement } from "./pages/Account_Management";
 import { AccountManagementHost } from "./pages/Account_ManagementHost";
 import UpdateAccount from "./pages/Update";

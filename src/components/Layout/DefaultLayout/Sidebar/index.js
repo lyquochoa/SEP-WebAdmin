@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouseChimneyUser,
   faUserAlt,
+  faUsers,
+  faUserSecret,
+  faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
@@ -30,13 +33,13 @@ function Sidebar({ handleLogout }) {
           </li>
           <li>
             <a href="/accountmanagement">
-              <FontAwesomeIcon icon={faUserAlt} />
+              <FontAwesomeIcon icon={faUserTie} />
               <span className={cx("link-name")}>Quản lý Khách Thuê</span>
             </a>
           </li>
           <li>
             <a href="/accountmanagementhost">
-              <FontAwesomeIcon icon={faUserAlt} />
+              <FontAwesomeIcon icon={faUserSecret} />
               <span className={cx("link-name")}>Quản lý Chủ Nhà</span>
             </a>
           </li>

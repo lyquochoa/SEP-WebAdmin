@@ -112,7 +112,6 @@ export class AccountManagement extends React.Component {
                               <FontAwesomeIcon icon={faEdit} />
                               Sửa
                             </a>
-
                             <a
                               href="/accountmanagement"
                               className={cx("btn")}

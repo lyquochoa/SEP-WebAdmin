@@ -14,19 +14,20 @@ import {
 import Sidebar from "../../components/Layout/DefaultLayout/Sidebar";
 import { db } from "../../firebase/config";
 import { ref, onValue, remove } from "firebase/database";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
 let UniqueNumber = 0;
-
 // Detele
 const onDelete = (id) => {
   if (window.confirm("Bạn muốn xóa tài khoản này hay không ? ")) {
     remove(ref(db, `Users/Host/${id}`))
       .then(() => {
-        alert("Xóa thành công");
+        toast.success("Xóa thành công");
       })
       .catch((error) => {
-        alert("Xóa thất bại" + error);
+        toast.error("Xóa thất bại" + error);
       });
   }
 };
@@ -57,6 +58,7 @@ export class AccountManagementHost extends React.Component {
     return (
       <body>
         <Sidebar />
+        <ToastContainer />
 
         <section className={cx("dashboard")}>
           <div className={cx("top")}>

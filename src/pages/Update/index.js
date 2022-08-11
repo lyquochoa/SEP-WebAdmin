@@ -67,7 +67,6 @@ function Update() {
     const newData = state;
 
     if (
-      !newData.mo_no ||
       !newData.username ||
       !newData.name ||
       !newData.phoneNumber ||

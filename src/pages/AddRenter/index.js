@@ -71,7 +71,7 @@ function AddRenter() {
           setTimeout(() => navigate("/accountmanagement"), 1200);
         })
         .catch((error) => {
-          toast.error("Cập nhật thất bại" + error);
+          toast.error("Tạo tài khoản thất bại" + error);
         });
     }
   };
@@ -88,7 +88,7 @@ function AddRenter() {
               className={cx("box")}
               name="mo_no"
               value={mo_no || ""}
-              placeholder="Nhập tài khoản"
+              placeholder="Nhập mã khách thuê"
               onChange={handleInputChange}
               maxlength="5"
             />
@@ -121,7 +121,7 @@ function AddRenter() {
               className={cx("box")}
               name="name"
               value={name || ""}
-              placeholder="Nhập tài khoản"
+              placeholder="Nhập tên khách thuê"
               onChange={handleInputChange}
               maxlength="15"
             />

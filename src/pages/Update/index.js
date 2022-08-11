@@ -119,7 +119,7 @@ function Update() {
               className={cx("box")}
               name="mo_no"
               value={mo_no || ""}
-              placeholder="Nhập tài khoản"
+              placeholder="Nhập mã khách thuê"
               onChange={handleInputChange}
               readonly="readonly"
               maxlength="5"
@@ -153,7 +153,7 @@ function Update() {
               className={cx("box")}
               name="name"
               value={name || ""}
-              placeholder="Nhập tài khoản"
+              placeholder="Nhập tên khách thuê"
               onChange={handleInputChange}
               maxlength="15"
             />

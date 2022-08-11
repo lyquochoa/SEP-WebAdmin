@@ -5,11 +5,13 @@ import { auth } from "../../firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
+import validator from "validator";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
 // console.log(db);
 function Login() {
-  const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,19 +22,27 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        dispatch({ type: "LOGIN", payload: user });
-        navitage("/");
-      })
-      .catch((error) => {
-        setError(true);
-      });
+    if (!email || !password) {
+      toast.error("Vui lòng nhập đủ các trường thông tin");
+    } else if (!validator.isEmail(email)) {
+      toast.error("Đây không phải email");
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          dispatch({ type: "LOGIN", payload: user });
+          toast.success("Đăng nhập thành công");
+          setTimeout(() => navitage("/accountmanagement"), 1200);
+        })
+        .catch(() => {
+          toast.error("Email hoặc mật khẩu không chính xác");
+        });
+    }
   };
   return (
     <section className={cx("container forms")}>
+      <ToastContainer />
       <div className={cx("form login")}>
         <div className={cx("form-content")}>
           <header>Đăng nhập</header>
@@ -54,7 +64,6 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {error && <span>Email hoặc mật khẩu không chính xác</span>}
 
             <div className={cx("field button-field")}>
               <button onClick={handleLogin}>

@@ -107,7 +107,7 @@ function AddHost() {
               className={cx("box")}
               name="name"
               value={name || ""}
-              placeholder="Nhập tài khoản"
+              placeholder="Nhập tên chủ nhà"
               onChange={handleInputChange}
               maxlength="15"
             />

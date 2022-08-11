@@ -9,9 +9,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
-
+const randomMaKH = Math.floor(Math.random() * 100) + 100;
 const initialState = {
-  mo_no: "",
+  mo_no: `KH${randomMaKH}`,
   username: "",
   name: "",
   phoneNumber: "",
@@ -36,7 +36,6 @@ function AddRenter() {
     const dbRef = ref(db, "Users/Renter/" + newData.username);
 
     if (
-      !newData.mo_no ||
       !newData.username ||
       !newData.name ||
       !newData.phoneNumber ||
@@ -87,9 +86,10 @@ function AddRenter() {
               type="text"
               className={cx("box")}
               name="mo_no"
-              value={mo_no || ""}
+              value={mo_no}
               placeholder="Nhập mã khách thuê"
               onChange={handleInputChange}
+              readonly="readonly"
               maxlength="5"
             />
 

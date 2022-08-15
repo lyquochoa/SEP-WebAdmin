@@ -10,7 +10,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
-// console.log(db);
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +32,7 @@ function Login() {
           const user = userCredential.user;
           dispatch({ type: "LOGIN", payload: user });
           toast.success("Đăng nhập thành công");
-          setTimeout(() => navitage("/accountmanagement"), 1200);
+          setTimeout(() => navitage("/"), 1000);
         })
         .catch(() => {
           toast.error("Email hoặc mật khẩu không chính xác");

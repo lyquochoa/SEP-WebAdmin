@@ -1,28 +1,51 @@
 import classNames from "classnames/bind";
 import styles from "./style_update-profile.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../../firebase/config";
-import { ref, set } from "firebase/database";
+import { ref, set, onValue } from "firebase/database";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { async } from "@firebase/util";
 
 const cx = classNames.bind(styles);
-const randomMaKH = Math.floor(Math.random() * 100) + 100;
-const initialState = {
-  mo_no: `KH${randomMaKH}`,
-  username: "",
-  name: "",
-  phoneNumber: "",
-  email: "",
-  password: "",
-};
+
+const dbRef = ref(db, "Users/Renter");
 
 function AddRenter() {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({
+    mo_no: "",
+    username: "",
+    name: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+  });
 
-  const { mo_no, username, name, phoneNumber, email, password } = state;
+  useEffect(() => {
+    function fetch() {
+      const maKHs = [];
+
+      onValue(dbRef, (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          let datas = childSnapshot.val();
+          maKHs.push(datas.mo_no);
+        });
+
+        const maKHnew = maKHs.toString().replace(/,/g, "").split("KH");
+
+        let randomMaKH = Number(maKHnew[0]);
+        for (let i = 0; i < maKHnew.length; i++) {
+          if (randomMaKH < Number(maKHnew[i])) {
+            randomMaKH = Number(maKHnew[i]);
+          }
+        }
+        setState({ ...state, mo_no: `KH${randomMaKH + 1}` });
+      });
+    }
+    fetch();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -86,7 +109,7 @@ function AddRenter() {
               type="text"
               className={cx("box")}
               name="mo_no"
-              value={mo_no}
+              value={state.mo_no}
               placeholder="Nhập mã khách thuê"
               onChange={handleInputChange}
               readonly="readonly"
@@ -98,7 +121,7 @@ function AddRenter() {
               type="text"
               className={cx("box")}
               name="username"
-              value={username || ""}
+              value={state.username || ""}
               placeholder="Nhập tài khoản"
               onChange={handleInputChange}
               maxlength="15"
@@ -109,7 +132,7 @@ function AddRenter() {
               type="text"
               className={cx("box")}
               name="password"
-              value={password || ""}
+              value={state.password || ""}
               placeholder="Nhập mật khẩu"
               onChange={handleInputChange}
               maxlength="20"
@@ -120,7 +143,7 @@ function AddRenter() {
               type="text"
               className={cx("box")}
               name="name"
-              value={name || ""}
+              value={state.name || ""}
               placeholder="Nhập tên khách thuê"
               onChange={handleInputChange}
               maxlength="15"
@@ -131,7 +154,7 @@ function AddRenter() {
               type="number"
               className={cx("box")}
               name="phoneNumber"
-              value={phoneNumber || ""}
+              value={state.phoneNumber || ""}
               placeholder="Nhập số điện thoại"
               onChange={handleInputChange}
               maxlength="15"
@@ -142,7 +165,7 @@ function AddRenter() {
               type="email"
               className={cx("box")}
               name="email"
-              value={email || ""}
+              value={state.email || ""}
               placeholder="Nhập địa chỉ email"
               onChange={handleInputChange}
             />

@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../../components/Layout/DefaultLayout/Sidebar";
 import { db } from "../../firebase/config";
-import { ref, onValue, remove } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 
 const cx = classNames.bind(styles);
 

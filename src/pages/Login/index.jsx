@@ -13,6 +13,9 @@ const cx = classNames.bind(styles);
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  const regnum =
+    /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/;
 
   const navitage = useNavigate();
 
@@ -23,6 +26,10 @@ function Login() {
 
     if (!email || !password) {
       toast.error("Vui lòng nhập đủ các trường thông tin");
+    } else if (email.match(regnum)) {
+      toast.error("Email không được bỏ dấu");
+    } else if (password.match(regnum)) {
+      toast.error("Mật khẩu không được bỏ dấu");
     } else if (!validator.isEmail(email)) {
       toast.error("Đây không phải email");
     } else {

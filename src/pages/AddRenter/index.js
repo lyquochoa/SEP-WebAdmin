@@ -7,7 +7,6 @@ import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { async } from "@firebase/util";
 
 const cx = classNames.bind(styles);
 

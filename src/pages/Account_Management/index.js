@@ -9,7 +9,6 @@ import {
   faAlignJustify,
   faEdit,
   faPlusCircle,
-  faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../../components/Layout/DefaultLayout/Sidebar";
@@ -43,10 +42,9 @@ function AccountManagement() {
     _limit: 3,
     _page: 1,
     _totalRows: 11,
-    loading: false,
   });
   const [filters, setFilters] = useState({
-    _limit: 2,
+    _limit: 3,
     _page: 1,
   });
 
@@ -77,6 +75,13 @@ function AccountManagement() {
       title_like: newFilters.search,
     });
   }
+
+  // function handlePageChange(newPage) {
+  //   setFilters({
+  //     ...filters,
+  //     _page: newPage,
+  //   });
+  // }
 
   // Detele Account Renters
   const onDelete = (id) => {
@@ -164,10 +169,6 @@ function AccountManagement() {
               </table>
             </div>
           </div>
-          {/* 
-          <button type="button" onClick={onNextPage}>
-            Tiếp theo
-          </button> */}
           {/* <Pagination pagination={pagination} onPageChange={handlePageChange} /> */}
         </div>
       </section>

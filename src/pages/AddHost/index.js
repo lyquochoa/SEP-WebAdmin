@@ -33,6 +33,9 @@ function AddHost() {
   const handleUpdate = () => {
     const newData = state;
     const dbRef = ref(db, "Users/Host/" + newData.username);
+    const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    const regnum =
+      /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/;
 
     if (
       !newData.username ||
@@ -42,6 +45,16 @@ function AddHost() {
       !newData.password
     ) {
       toast.error("Vui lòng nhập đủ các trường thông tin");
+    } else if (newData.username.match(regnum)) {
+      toast.error("Tài khoản không được bỏ dấu");
+    } else if (newData.password.match(regnum)) {
+      toast.error("Mật khẩu không được bỏ dấu");
+    } else if (
+      newData.username.match(regex) ||
+      newData.name.match(regex) ||
+      newData.password.match(regex)
+    ) {
+      toast.error("Không được chứa ký tự đặc biệt");
     } else if (newData.username.length > 10 || newData.username.length < 3) {
       toast.error("Tài khoản phải có độ dài từ 3 đến 10 ký tự");
     } else if (newData.password.length > 13 || newData.password.length < 6) {

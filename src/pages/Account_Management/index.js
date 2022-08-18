@@ -43,10 +43,7 @@ function AccountManagement() {
     _page: 1,
     _totalRows: 11,
   });
-  const [filters, setFilters] = useState({
-    _limit: 3,
-    _page: 1,
-  });
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
     const dbRef = query(
@@ -96,7 +93,6 @@ function AccountManagement() {
     }
   };
 
-  // console.log(pagination);
   return (
     <body>
       <Sidebar />

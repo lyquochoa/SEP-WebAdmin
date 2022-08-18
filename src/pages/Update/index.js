@@ -81,6 +81,8 @@ function Update() {
       toast.error("Tài khoản không được bỏ dấu");
     } else if (newData.password.match(regnum)) {
       toast.error("Mật khẩu không được bỏ dấu");
+    } else if (newData.email.match(regnum)) {
+      toast.error("Email không được bỏ dấu");
     } else if (
       newData.username.match(regex) ||
       newData.name.match(regex) ||

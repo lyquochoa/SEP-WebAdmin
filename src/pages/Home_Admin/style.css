@@ -31,10 +31,6 @@
   --tran-03: all 0.2s ease;
 }
 
-body {
-  min-height: 100vh;
-  background-color: var(--primary-color);
-}
 body.dark {
   --white: #fff;
   --primary-color: #3a3b3c;

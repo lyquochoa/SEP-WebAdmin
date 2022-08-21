@@ -107,7 +107,7 @@ function AddHost() {
 
             <span>Mật khẩu</span>
             <input
-              type="text"
+              type="password"
               className={cx("box")}
               name="password"
               value={password || ""}

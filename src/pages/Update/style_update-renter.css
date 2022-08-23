@@ -122,6 +122,20 @@
   margin-top: 10px;
 }
 
+.update-profile form .flex .inputBox .box-password {
+  position: relative;
+}
+
+.box-password svg.showHidePw {
+  position: absolute;
+  right: 50%;
+  left: 93%;
+  bottom: 50%;
+  top: 50.5%;
+  cursor: pointer;
+  padding: 10px;
+}
+
 .errorMessage {
   color: red;
   text-align: left;

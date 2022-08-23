@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import styles from "./style_update-profile.css";
+import styles from "../AddRenter/style_add-renter.css";
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase/config";
 import { ref, set, onValue } from "firebase/database";
@@ -7,21 +7,14 @@ import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
 
 const dbRef = ref(db, "Users/Renter");
 
 function AddRenter() {
-  // const [state, setState] = useState({
-  //   mo_no: "",
-  //   username: "",
-  //   name: "",
-  //   phoneNumber: "",
-  //   email: "",
-  //   password: "",
-  // });
-
   const [state, setState] = useState({
     mo_no: {
       value: "",
@@ -204,6 +197,20 @@ function AddRenter() {
     });
   };
 
+  //handleShowPassword
+  const [passwordType, setPasswordType] = useState({
+    password: "password",
+    eye: faEyeSlash,
+  });
+
+  const togglePassword = () => {
+    if (passwordType.password === "password") {
+      setPasswordType({ password: "text", eye: faEye });
+      return;
+    }
+    setPasswordType({ password: "password", eye: faEyeSlash });
+  };
+
   const handleUpdate = () => {
     const newData = state;
     const dbRef = ref(db, "Users/Renter/" + newData.username.value);
@@ -277,17 +284,24 @@ function AddRenter() {
               errorMessage={state.username.errorMessage}
             />
 
-            <span>Mật khẩu</span>
-            <input
-              type="password"
-              className={cx("box")}
-              name="password"
-              value={state.password.value || ""}
-              placeholder="Nhập mật khẩu  "
-              maxlength="50"
-              onChange={handleInputChange}
-              onBlur={handleInputValidation}
-            />
+            <div className={cx("box-password")}>
+              <span>Mật khẩu</span>
+              <input
+                type={passwordType.password}
+                className={cx("box")}
+                name="password"
+                value={state.password.value || ""}
+                placeholder="Nhập mật khẩu  "
+                maxlength="50"
+                onChange={handleInputChange}
+                onBlur={handleInputValidation}
+              />
+              <FontAwesomeIcon
+                className={cx("showHidePw")}
+                icon={passwordType.eye}
+                onClick={togglePassword}
+              />
+            </div>
             <FormError
               type="fullname"
               isHidden={state.password.isInputValid}

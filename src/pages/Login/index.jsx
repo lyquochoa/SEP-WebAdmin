@@ -20,7 +20,6 @@ const cx = classNames.bind(styles);
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
   const regnum =
     /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/;
 

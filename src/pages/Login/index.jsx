@@ -98,6 +98,7 @@ function Login() {
                   className={cx("showHidePw")}
                   icon={passwordType.eye}
                   onClick={togglePassword}
+                  style={{ left: "85%", top: "50%" }}
                 />
               </div>
 

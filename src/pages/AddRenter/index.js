@@ -93,12 +93,11 @@ function AddRenter() {
   }
 
   const validateInput = (type, checkingText) => {
-    const space = /\S/;
     const spaceBetween = /^[\S]+(\s[\S]+)*$/;
     const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     const regnum =
       /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/;
-    const regexp = /^\d{10,12}$/;
+    const regexp = /^\d{10,11}$/;
 
     if (type === "username") {
       if (checkingText.match(regnum)) {
@@ -167,7 +166,7 @@ function AddRenter() {
       } else {
         return {
           isInputValid: false,
-          errorMessage: "Số điện thoại phải có độ dài từ 10 - 12 con số.",
+          errorMessage: "Số điện thoại phải có độ dài từ 10 - 11 con số.",
         };
       }
     }
@@ -177,11 +176,6 @@ function AddRenter() {
         return {
           isInputValid: false,
           errorMessage: "Email không được bỏ dấu.",
-        };
-      } else if (checkingText.match(space) === null) {
-        return {
-          isInputValid: false,
-          errorMessage: "Email không được có khoảng trắng.",
         };
       } else if (!validator.isEmail(checkingText)) {
         return {
@@ -222,6 +216,14 @@ function AddRenter() {
       !newData.password.value.trim()
     ) {
       toast.error("Vui lòng nhập đủ các trường thông tin");
+    } else if (
+      newData.username.isInputValid === false ||
+      newData.name.isInputValid === false ||
+      newData.phoneNumber.isInputValid === false ||
+      newData.email.isInputValid === false ||
+      newData.password.isInputValid === false
+    ) {
+      toast.error("Các trường thông tin nhập chưa đúng định dạng");
     } else {
       set(dbRef, {
         mo_no: newData.mo_no.value,
@@ -265,7 +267,7 @@ function AddRenter() {
               name="username"
               value={state.username.value || ""}
               placeholder="Nhập tài khoản"
-              maxlength="30"
+              maxlength="50"
               onChange={handleInputChange}
               onBlur={handleInputValidation}
             />
@@ -282,7 +284,7 @@ function AddRenter() {
               name="password"
               value={state.password.value || ""}
               placeholder="Nhập mật khẩu  "
-              maxlength="30"
+              maxlength="50"
               onChange={handleInputChange}
               onBlur={handleInputValidation}
             />
@@ -299,7 +301,7 @@ function AddRenter() {
               name="name"
               value={state.name.value || ""}
               placeholder="Nhập tên khách thuê"
-              maxlength="30"
+              maxlength="50"
               onChange={handleInputChange}
               onBlur={handleInputValidation}
             />
@@ -316,7 +318,7 @@ function AddRenter() {
               name="phoneNumber"
               value={state.phoneNumber.value || ""}
               placeholder="Nhập số điện thoại"
-              maxlength="30"
+              maxlength="50"
               onChange={handleInputChange}
               onBlur={handleInputValidation}
             />
@@ -333,7 +335,7 @@ function AddRenter() {
               name="email"
               value={state.email.value || ""}
               placeholder="Nhập địa chỉ email"
-              maxlength="30"
+              maxlength="50"
               onChange={handleInputChange}
               onBlur={handleInputValidation}
             />

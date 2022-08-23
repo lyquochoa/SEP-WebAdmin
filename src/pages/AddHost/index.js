@@ -10,73 +10,192 @@ import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
 
-const initialState = {
-  username: "",
-  name: "",
-  phoneNumber: "",
-  email: "",
-  password: "",
-};
-
 function AddHost() {
-  const [state, setState] = useState(initialState);
-
-  const { username, name, phoneNumber, email, password } = state;
+  const [state, setState] = useState({
+    mo_no: {
+      value: "",
+    },
+    username: {
+      value: "",
+      isInputValid: true,
+      errorMessage: "",
+    },
+    password: {
+      value: "",
+      isInputValid: true,
+      errorMessage: "",
+    },
+    name: {
+      value: "",
+      isInputValid: true,
+      errorMessage: "",
+    },
+    phoneNumber: {
+      value: "",
+      isInputValid: true,
+      errorMessage: "",
+    },
+    email: {
+      value: "",
+      isInputValid: true,
+      errorMessage: "",
+    },
+  });
 
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setState({ ...state, [name]: value });
+    setState({ ...state, [name]: { value: value } });
+  };
+
+  function FormError(props) {
+    if (props.isHidden) {
+      return null;
+    }
+
+    return <div className={cx("errorMessage")}>{props.errorMessage}</div>;
+  }
+
+  const validateInput = (type, checkingText) => {
+    const spaceBetween = /^[\S]+(\s[\S]+)*$/;
+    const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    const regnum =
+      /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/;
+    const regexp = /^\d{10,11}$/;
+
+    if (type === "username") {
+      if (checkingText.match(regnum)) {
+        return {
+          isInputValid: false,
+          errorMessage: "Tài khoản không được bỏ dấu.",
+        };
+      } else if (checkingText.match(regex)) {
+        return {
+          isInputValid: false,
+          errorMessage:
+            "Tài khoản không được có kí tự đặc biệt hoặc khoảng trắng.",
+        };
+      } else if (checkingText.length > 15 || checkingText.length < 3) {
+        return {
+          isInputValid: false,
+          errorMessage: "Tài khoản phải có độ dài từ 3 - 15 chữ số.",
+        };
+      } else {
+        return { isInputValid: true, errorMessage: "" };
+      }
+    }
+
+    if (type === "password") {
+      if (checkingText.match(regnum)) {
+        return {
+          isInputValid: false,
+          errorMessage: "Mật khẩu không được bỏ dấu.",
+        };
+      } else if (checkingText.match(regex)) {
+        return {
+          isInputValid: false,
+          errorMessage:
+            "Mật khẩu không được có kí tự đặc biệt hoặc khoảng trắng.",
+        };
+      } else if (checkingText.length > 15 || checkingText.length < 6) {
+        return {
+          isInputValid: false,
+          errorMessage: "Mật khẩu phải có độ dài từ 6 - 15 chữ số.",
+        };
+      } else {
+        return { isInputValid: true, errorMessage: "" };
+      }
+    }
+
+    if (type === "name") {
+      if (checkingText.match(/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/)) {
+        return {
+          isInputValid: false,
+          errorMessage: "Tên khách hàng không được có ký tự đặc biệt.",
+        };
+      } else if (checkingText.match(spaceBetween) === null) {
+        return {
+          isInputValid: false,
+          errorMessage: "Không được có khoảng trắng ở đầu hoặc cuối.",
+        };
+      } else {
+        return { isInputValid: true, errorMessage: "" };
+      }
+    }
+
+    if (type === "phoneNumber") {
+      const checkingResult = regexp.exec(checkingText);
+      if (checkingResult !== null) {
+        return { isInputValid: true, errorMessage: "" };
+      } else {
+        return {
+          isInputValid: false,
+          errorMessage: "Số điện thoại phải có độ dài từ 10 - 11 con số.",
+        };
+      }
+    }
+
+    if (type === "email") {
+      if (checkingText.match(regnum)) {
+        return {
+          isInputValid: false,
+          errorMessage: "Email không được bỏ dấu.",
+        };
+      } else if (!validator.isEmail(checkingText)) {
+        return {
+          isInputValid: false,
+          errorMessage: "Đây không phải email.",
+        };
+      } else {
+        return { isInputValid: true, errorMessage: "" };
+      }
+    }
+  };
+
+  const handleInputValidation = (event) => {
+    const { name } = event.target;
+    const { isInputValid, errorMessage } = validateInput(
+      name,
+      state[name].value
+    );
+    setState({
+      ...state,
+      [name]: {
+        isInputValid: isInputValid,
+        errorMessage: errorMessage,
+        value: state[name].value,
+      },
+    });
   };
 
   const handleUpdate = () => {
     const newData = state;
-    const dbRef = ref(db, "Users/Host/" + newData.username);
-    const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    const regnum =
-      /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/;
+    const dbRef = ref(db, "Users/Host/" + newData.username.value);
 
     if (
-      !newData.username ||
-      !newData.name ||
-      !newData.phoneNumber ||
-      !newData.email ||
-      !newData.password
+      !newData.username.value.trim() ||
+      !newData.name.value.trim() ||
+      !newData.phoneNumber.value.trim() ||
+      !newData.email.value.trim() ||
+      !newData.password.value.trim()
     ) {
       toast.error("Vui lòng nhập đủ các trường thông tin");
-    } else if (newData.username.match(regnum)) {
-      toast.error("Tài khoản không được bỏ dấu");
-    } else if (newData.password.match(regnum)) {
-      toast.error("Mật khẩu không được bỏ dấu");
-    } else if (newData.email.match(regnum)) {
-      toast.error("Email không được bỏ dấu");
     } else if (
-      newData.username.match(regex) ||
-      newData.name.match(regex) ||
-      newData.password.match(regex)
+      newData.username.isInputValid === false ||
+      newData.name.isInputValid === false ||
+      newData.phoneNumber.isInputValid === false ||
+      newData.email.isInputValid === false ||
+      newData.password.isInputValid === false
     ) {
-      toast.error("Không được chứa ký tự đặc biệt");
-    } else if (newData.username.length > 10 || newData.username.length < 3) {
-      toast.error("Tài khoản phải có độ dài từ 3 đến 10 ký tự");
-    } else if (newData.password.length > 13 || newData.password.length < 6) {
-      toast.error("Mật khẩu phải có độ dài từ 6 đến 13 ký tự");
-    } else if (newData.name.length > 15 || newData.name.length < 3) {
-      toast.error("Tên chủ nhà phải có độ dài từ 3 đến 15 ký tự");
-    } else if (
-      newData.phoneNumber.length < 10 ||
-      newData.phoneNumber.length > 12
-    ) {
-      toast.error("Số điện thoại phải từ 10 đến 12 con số");
-    } else if (!validator.isEmail(newData.email)) {
-      toast.error("Đây không phải email");
+      toast.error("Các trường thông tin nhập chưa đúng định dạng");
     } else {
       set(dbRef, {
-        username: newData.username,
-        name: newData.name,
-        phoneNumber: newData.phoneNumber,
-        email: newData.email,
-        password: newData.password,
+        username: newData.username.value,
+        name: newData.name.value,
+        phoneNumber: newData.phoneNumber.value,
+        email: newData.email.value,
+        password: newData.password.value,
       })
         .then(() => {
           toast.success("Tạo tài khoản thành công");
@@ -99,10 +218,16 @@ function AddHost() {
               type="text"
               className={cx("box")}
               name="username"
-              value={username || ""}
+              value={state.username.value || ""}
               placeholder="Nhập tài khoản"
+              maxlength="50"
               onChange={handleInputChange}
-              maxlength="15"
+              onBlur={handleInputValidation}
+            />
+            <FormError
+              type="fullname"
+              isHidden={state.username.isInputValid}
+              errorMessage={state.username.errorMessage}
             />
 
             <span>Mật khẩu</span>
@@ -110,21 +235,33 @@ function AddHost() {
               type="password"
               className={cx("box")}
               name="password"
-              value={password || ""}
-              placeholder="Nhập mật khẩu"
+              value={state.password.value || ""}
+              placeholder="Nhập mật khẩu  "
+              maxlength="50"
               onChange={handleInputChange}
-              maxlength="20"
+              onBlur={handleInputValidation}
+            />
+            <FormError
+              type="fullname"
+              isHidden={state.password.isInputValid}
+              errorMessage={state.password.errorMessage}
             />
 
-            <span>Tên chủ nhà</span>
+            <span>Tên khách thuê</span>
             <input
               type="text"
               className={cx("box")}
               name="name"
-              value={name || ""}
-              placeholder="Nhập tên chủ nhà"
+              value={state.name.value || ""}
+              placeholder="Nhập tên khách thuê"
+              maxlength="50"
               onChange={handleInputChange}
-              maxlength="15"
+              onBlur={handleInputValidation}
+            />
+            <FormError
+              type="fullname"
+              isHidden={state.name.isInputValid}
+              errorMessage={state.name.errorMessage}
             />
 
             <span>Số điện thoại</span>
@@ -132,10 +269,16 @@ function AddHost() {
               type="number"
               className={cx("box")}
               name="phoneNumber"
-              value={phoneNumber || ""}
+              value={state.phoneNumber.value || ""}
               placeholder="Nhập số điện thoại"
+              maxlength="50"
               onChange={handleInputChange}
-              maxlength="15"
+              onBlur={handleInputValidation}
+            />
+            <FormError
+              type="fullname"
+              isHidden={state.phoneNumber.isInputValid}
+              errorMessage={state.phoneNumber.errorMessage}
             />
 
             <span>Email</span>
@@ -143,9 +286,16 @@ function AddHost() {
               type="email"
               className={cx("box")}
               name="email"
-              value={email || ""}
+              value={state.email.value || ""}
               placeholder="Nhập địa chỉ email"
+              maxlength="50"
               onChange={handleInputChange}
+              onBlur={handleInputValidation}
+            />
+            <FormError
+              type="fullname"
+              isHidden={state.email.isInputValid}
+              errorMessage={state.email.errorMessage}
             />
           </div>
         </div>

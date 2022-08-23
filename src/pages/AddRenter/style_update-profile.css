@@ -122,6 +122,11 @@
   margin-top: 10px;
 }
 
+.errorMessage {
+  color: red;
+  text-align: left;
+}
+
 @media (max-width: 650px) {
   .update-profile form .flex {
     flex-wrap: wrap;

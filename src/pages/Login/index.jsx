@@ -8,6 +8,13 @@ import { AuthContext } from "../../Context/AuthContext";
 import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faEyeSlash,
+  faLock,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
 function Login() {
@@ -46,40 +53,63 @@ function Login() {
         });
     }
   };
+
+  const [passwordType, setPasswordType] = useState({
+    password: "password",
+    eye: faEyeSlash,
+  });
+
+  const togglePassword = () => {
+    if (passwordType.password === "password") {
+      setPasswordType({ password: "text", eye: faEye });
+      return;
+    }
+    setPasswordType({ password: "password", eye: faEyeSlash });
+  };
   return (
-    <section className={cx("container forms")}>
-      <ToastContainer />
-      <div className={cx("form login")}>
-        <div className={cx("form-content")}>
-          <header>Đăng nhập</header>
-          <form onSubmit={handleLogin}>
-            <div className={cx("field input-field")}>
-              <input
-                type="email"
-                placeholder="Nhập địa chỉ Email"
-                className={cx("input")}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+    <div className="body">
+      <div className={cx("container")}>
+        <ToastContainer />
 
-            <div className={cx("field input-field")}>
-              <input
-                type="password"
-                placeholder="Nhập mật khẩu"
-                className={cx("password")}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+        <div className={cx("forms")}>
+          <div className={cx("form login")}>
+            <span className={cx("title")}>Đăng nhập</span>
 
-            <div className={cx("field button-field")}>
-              <button onClick={handleLogin}>
-                <a href="/">Đăng nhập</a>
-              </button>
-            </div>
-          </form>
+            <form onSubmit={handleLogin}>
+              <div className={cx("input-field")}>
+                <input
+                  type="text"
+                  placeholder="Nhập địa chỉ Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                {/* <i className={cx("uil uil-envelope icon")}></i> */}
+                <FontAwesomeIcon icon={faEnvelope} />
+              </div>
+              <div className={cx("input-field")}>
+                <input
+                  type={passwordType.password}
+                  className={cx("password")}
+                  placeholder="Nhập mật khẩu"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <FontAwesomeIcon icon={faLock} />
+                <FontAwesomeIcon
+                  className={cx("showHidePw")}
+                  icon={passwordType.eye}
+                  onClick={togglePassword}
+                />
+              </div>
+
+              <div className={cx("input-field button")}>
+                <input type="button" value="Đăng nhập" onClick={handleLogin} />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

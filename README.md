@@ -5,4 +5,4 @@ _ Chức năng:
  + CRUD tài khoản người dùng
  + Thống kê số lượng tài khoản đã tạo
 
-_ Lưu trữ và tri xuất dữ liệu: Realtime database của Firebase
+_ Lưu trữ và truy xuất dữ liệu: Realtime database của Firebase
